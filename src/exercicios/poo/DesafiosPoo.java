@@ -1,7 +1,6 @@
 package exercicios.poo;
 
 import exercicios.poo.models.BankAccount;
-import exercicios.poo.service.Bank;
 
 import java.util.Scanner;
 
@@ -10,7 +9,7 @@ public class DesafiosPoo {
     Todos os exercícios devem ter um menu interativo para chamar as funções
      e ter uma opção de sair para finalizar a execução
      */
-    Bank bank = new Bank();
+    //Bank bank = new Bank();
     BankAccount account = new BankAccount();
     Scanner scan = new Scanner(System.in);
 
@@ -31,7 +30,6 @@ public class DesafiosPoo {
             Para valores acima de R$500,00 o cheque especial deve ser de 50% do valor depositado;
             Caso o limite de cheque especial seja usado, assim que possível a conta deve cobrar uma taxa de 20% do valor usado do cheque especial.
          */
-        int op = 0;
         double novosaldo;
         double valor;
         boolean continuar = true;
@@ -40,9 +38,8 @@ public class DesafiosPoo {
 
         while (prg) {
             if (account.getUser() == null) {
-                bank.CreateUser();
+                account.CreateUser();
             }
-            //account.setIsoverdraft(false);
             System.out.printf("\n==========MENU BANCO==========" +
                     ((account.getUser() == null) ? ("\nSeja bem-vindo(a)") : ("\nSeja bem-vindo(a), %s!\n")), account.getUser());
             System.out.println("\nConsultar saldo[1]          " + "Consultar cheque especial[2]" +
@@ -50,108 +47,30 @@ public class DesafiosPoo {
                     "\nPagar um boleto[5]          " + "Verificar se conta está usando cheque especial[6]" +
                     "\nSair[0]\n");
             System.out.print("Digite sua opção: ");
-            op = scan.nextInt();
-            switch (op) {
+            scan.nextInt();
+            switch (scan.nextInt()) {
                 case 1:
-                    bank.CheckBalance();
+                    account.CheckBalance();
                     break;
 
                 case 2:
-                    bank.CheckOverdraft();
+                    account.CheckOverdraft();
                     break;
 
                 case 3:
-                    bank.Deposit();
+                    account.Deposit();
                     break;
 
                 case 4:
-                    do {
-                        do {
-                            System.out.println("\nDigite o saldo a ser retirado (maior que 0): ");
-                            valor = scan.nextDouble();
-                            if (valor <= 0) {
-                                System.out.println("O valor deve ser maior que 0!");
-                            } else if (valor > account.getValue()) {
-                                System.out.println("O valor excede seu saldo atual!!");
-                            }
-                        } while (valor <= 0 || valor > account.getValue());
-                        novosaldo = account.getValue() - valor;
-                        account.setValue(novosaldo);
-                        System.out.printf("\nVocê sacou R$ %.2f com sucesso!", valor);
-                        System.out.println("\nDeseja retornar?" +
-                                "\nSim[1]" +
-                                "\nNão[2] ");
-                        op = scan.nextInt();
-                    } while (op != 1);
+                    account.Cashout();
                     break;
 
                 case 5:
-                    do {
-                        do {
-                            System.out.println("\nDigite o valor do boleto: ");
-                            valor = scan.nextDouble();
-                            if (valor <= 0) {
-                                System.out.println("O valor deve ser maior que 0!");
-                            } else if (valor > account.getValue()) {
-                                System.out.println("O valor excede seu saldo atual!!");
-                            }
-                        } while (valor <= 0 || valor > account.getValue());
-                        novosaldo = account.getValue() - valor;
-                        account.setValue(novosaldo);
-                        System.out.printf("\nVocê pagou o boleto no valor de R$ %.2f com sucesso!", valor);
-                        System.out.println("\nDeseja retornar?" +
-                                "\nSim[1]" +
-                                "\nNão[2] ");
-                        op = scan.nextInt();
-                    } while (op != 1);
+                    account.Bills();
                     break;
 
                 case 6:
-                    while (true) {
-                        System.out.println(account.isIsoverdraft() ? ("\nVocê está utilizando o crédito especial da sua conta.") :
-                                ("\nVocê não está utilizando o crédito especial."));
-                        if (!account.isIsoverdraft()) {
-                            System.out.printf("Deseja utilizar o crédito especial da sua conta, no valor de R$%.2f ?" +
-                                    "\nSim[1]" +
-                                    "\nNão[2]", account.getOverdraft());
-                            op = scan.nextInt();
-                            switch (op) {
-                                case 1:
-                                    account.setIsoverdraft(true);
-                                    System.out.println("\nAgora você está utilizando o crédito especial em conta.");
-                                    break;
-                                case 2:
-                                    account.setIsoverdraft(false);
-                                    System.out.println("\nVocê não utilizando o crédito especial em conta.");
-                                    break;
-                                default:
-                                    System.out.println("\nOpção inválida!");
-                            }
-                        } else {
-                            System.out.printf("Deseja parar de utilizar o crédito especial da sua conta, no valor de R$%.2f ?" +
-                                    "\nSim[1]" +
-                                    "\nNão[2]", account.getOverdraft());
-                            switch (op) {
-                                case 1:
-                                    account.setIsoverdraft(false);
-                                    System.out.println("\nVocê não utilizando o crédito especial em conta.");
-                                    break;
-                                case 2:
-                                    account.setIsoverdraft(true);
-                                    System.out.println("\nAgora você está utilizando o crédito especial em conta.");
-                                    break;
-                                default:
-                                    System.out.println("\nOpção inválida!");
-                            }
-                        }
-                        System.out.println("\nDeseja retornar?" +
-                                "\nSim[1]" +
-                                "\nNão[2] ");
-                        op = scan.nextInt();
-                        if (op == 1) {
-                            break;
-                        }
-                    }
+                    account.OverDraft();
                     break;
 
                 case 0:
