@@ -1,9 +1,13 @@
-package desafios.models;
+package exercicios.poo.models;
+
+import java.util.Scanner;
 
 public class BankAccount {
+    Scanner scan = new Scanner(System.in);
     private String user;
     private double value;
     private double overdraft;
+    private boolean isoverdraft;
 
     public String getUser() {
         return user;
@@ -17,6 +21,11 @@ public class BankAccount {
         return value;
     }
 
+    public boolean isIsoverdraft() {
+        return isoverdraft;
+    }
+
+
     public void setValue(double value) {
         this.value = value;
     }
@@ -28,4 +37,9 @@ public class BankAccount {
     public void setOverdraft(double overdraft) {
         this.overdraft = overdraft;
     }
+
+    public void setIsoverdraft(boolean isoverdraft) {
+        this.isoverdraft = isoverdraft;
+    }
+
 }
