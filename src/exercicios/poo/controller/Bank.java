@@ -71,6 +71,8 @@ public class Bank {
                 case 0:
                     prg = false;
                     break;
+                default:
+                    System.out.println("\nOpção inválida!");
             }
         }
         scanner.close();

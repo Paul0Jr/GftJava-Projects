@@ -8,6 +8,7 @@ public class Car {
     CarFunctions function = new CarFunctions();
     Scanner scanner = new Scanner(System.in);
     private int op = 0;
+    private boolean keep = true;
     /*
     Escreva um código onde controlamos as funções de um carro, ele deve ter as seguintes funções:
         * Ligar o carro;
@@ -40,14 +41,40 @@ public class Car {
         function.setOnOff(false);
         function.setSpeed(0);
         function.setGear(0);
-        System.out.print("\n==========MENU CARRO==========");
-        System.out.println("\nLigar carro[1]          " + "Desligar carro[2]" +
-                "\nAcelerar[3]       " + "Diminuir velocidade[4]" +
-                "\nVirar para a esquerda/direita[5]          " + "Verificar velocidade[6]" +
-                "\nTrocar a marca[7]     " + "Sair do carro[8]\n");
-        System.out.print("Digite sua opção: ");
-        op = scanner.nextInt();
-        switch (op) {
+        while (keep) {
+            System.out.print("\n\n==========MENU CARRO==========");
+            System.out.println("" +
+                    "\nLigar carro[1]             " + "Desligar carro[2]" +
+                    "\nAcelerar[3]                " + "Diminuir velocidade[4]" +
+                    "\nTrocar a marcha[5]         " + "Virar para a esquerda/direita[6] " +
+                    "\nVerificar status[7]    " + "Sair do carro[8]\n");
+            System.out.print("Digite sua opção: ");
+            op = scanner.nextInt();
+            switch (op) {
+                case 1:
+                    function.TurnOn();
+                    break;
+                case 2:
+                    function.TurnOff();
+                    break;
+                case 3:
+                    function.SpeedUp();
+                    break;
+                case 4:
+                    function.SpeedDown();
+                    break;
+                case 5:
+                    function.ChangeGear();
+                    break;
+                case 6:
+                    function.TurnLR();
+                    break;
+                case 7:
+                    function.Status();
+                    break;
+                default:
+                    System.out.println("\nOpção inválida!");
+            }
         }
     }
 }
