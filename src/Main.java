@@ -1,8 +1,8 @@
-import exercicios.poo.DesafiosPoo;
+import exercicios.poo.controller.Bank;
 
 public class Main {
     public static void main(String[] args) {
-        DesafiosPoo poo = new DesafiosPoo();
+        Bank poo = new Bank();
         poo.ContaBancaria();
     }
 }

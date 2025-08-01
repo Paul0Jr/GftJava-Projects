@@ -1,17 +1,17 @@
-package exercicios.poo;
+package exercicios.poo.controller;
 
 import exercicios.poo.models.BankAccount;
 
 import java.util.Scanner;
 
-public class DesafiosPoo {
+public class Bank {
     /*
     Todos os exercícios devem ter um menu interativo para chamar as funções
      e ter uma opção de sair para finalizar a execução
      */
-    //Bank bank = new Bank();
     BankAccount account = new BankAccount();
-    Scanner scan = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+    int op = 0;
 
     public void ContaBancaria() {
         /*
@@ -30,9 +30,7 @@ public class DesafiosPoo {
             Para valores acima de R$500,00 o cheque especial deve ser de 50% do valor depositado;
             Caso o limite de cheque especial seja usado, assim que possível a conta deve cobrar uma taxa de 20% do valor usado do cheque especial.
          */
-        double novosaldo;
-        double valor;
-        boolean continuar = true;
+
         boolean prg = true;
         account.setIsoverdraft(false);
 
@@ -47,37 +45,34 @@ public class DesafiosPoo {
                     "\nPagar um boleto[5]          " + "Verificar se conta está usando cheque especial[6]" +
                     "\nSair[0]\n");
             System.out.print("Digite sua opção: ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            op = scanner.nextInt();
+            switch (op) {
                 case 1:
                     account.CheckBalance();
-                    break;
+                    continue;
 
                 case 2:
                     account.CheckOverdraft();
-                    break;
+                    continue;
 
                 case 3:
                     account.Deposit();
-                    break;
+                    continue;
 
                 case 4:
                     account.Cashout();
-                    break;
-
+                    continue;
                 case 5:
                     account.Bills();
-                    break;
-
+                    continue;
                 case 6:
                     account.OverDraft();
-                    break;
-
+                    continue;
                 case 0:
                     prg = false;
                     break;
             }
         }
-
+        scanner.close();
     }
 }

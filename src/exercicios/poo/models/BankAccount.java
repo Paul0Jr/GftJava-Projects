@@ -10,9 +10,11 @@ public class BankAccount {
     private boolean isoverdraft;
 
     //Variaveis dispensáveis
+    private String name;
     private double value;
     private boolean keep;
     private double newvalue;
+    private int option = 0;
 
     public String getUser() {
         return user;
@@ -49,7 +51,7 @@ public class BankAccount {
     public void CreateUser() {
         System.out.println("\nÉ necessário criar uma conta!");
         System.out.print("Insira seu nome: ");
-        scan.next();
+        setUser(scan.next());
         do {
             System.out.println("\nDigite o saldo a ser depositado (maior que 0): ");
             value = scan.nextDouble();
@@ -65,51 +67,51 @@ public class BankAccount {
         } else {
             setOverdraft(50);
         }
-        scan.close();
     }
 
     public void CheckBalance() {
-        do {
+        keep = true;
+        while (keep) {
             System.out.printf("\nOlá %s, seu saldo atual é de R$ %.2f", getUser(), getBalance());
             System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
                 case 2:
-                    break;
+                    continue;
                 default:
                     System.out.println("\nOpção inválida!");
             }
-        } while (keep);
-        scan.close();
+        }
     }
 
     public void CheckOverdraft() {
-        do {
+        keep = true;
+        while (keep) {
             System.out.printf("\nAtualmente seu cheque especial é de R$ %.2f", getOverdraft());
             System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
                 case 2:
-                    break;
+                    continue;
                 default:
                     System.out.println("\nOpção inválida!");
             }
-        } while (keep);
-        scan.close();
+        }
     }
 
     public void Deposit() {
-        do {
+        keep = true;
+        while (keep) {
             do {
                 System.out.println("\nDigite o saldo a ser depositado (maior que 0): ");
                 value = scan.nextDouble();
@@ -123,8 +125,8 @@ public class BankAccount {
             System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
@@ -133,12 +135,12 @@ public class BankAccount {
                 default:
                     System.out.println("\nOpção inválida!");
             }
-        } while (keep);
-        scan.close();
+        }
     }
 
     public void Cashout() {
-        do {
+        keep = true;
+        while (keep) {
             do {
                 System.out.println("\nDigite o saldo a ser retirado (maior que 0): ");
                 value = scan.nextDouble();
@@ -154,39 +156,69 @@ public class BankAccount {
             System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
                 case 2:
-                    break;
+                    continue;
                 default:
                     System.out.println("\nOpção inválida!");
             }
-        } while (keep);
-        scan.close();
+        }
     }
 
     public void Bills() {
-        do {
-            do {
-                System.out.println("\nDigite o valor do boleto: ");
-                value = scan.nextDouble();
-                if (value <= 0) {
-                    System.out.println("O valor deve ser maior que 0!");
-                } else if (value > getBalance()) {
-                    System.out.println("O valor excede seu saldo atual!!");
+        keep = true;
+        while (keep) {
+            double total = getBalance();
+            if (getBalance() == 0) {
+                System.out.println("\nVocê não possui saldo suficiente para pagar contas. Por favor, deposite dinheiro.");
+                keep = false;
+                break;
+            }
+            System.out.printf("\nSeu saldo: R$ %.2f", getBalance());
+            if (isIsoverdraft()) {
+                total += getOverdraft();
+                System.out.printf("\nCheque especial disponível: R$ %.2f", getOverdraft());
+            }
+            System.out.println("\nDigite o valor do boleto: ");
+            value = scan.nextDouble();
+
+            if (value <= 0) {
+                System.out.println("O valor deve ser maior que 0!");
+                continue;
+            }
+
+            if (value > total) {
+                System.out.println("O valor excede seu limite total (saldo + cheque especial)!");
+                continue;
+            }
+
+            if (value <= getBalance()) {
+                setBalance(getBalance() - value);
+            } else {
+                newvalue = value - getBalance();
+                setBalance(0);
+                double tax = newvalue * 0.2;
+                double totalwithtax = newvalue + tax;
+
+                if (totalwithtax > getOverdraft()) {
+                    System.out.println("\nNão é possível usar o cheque especial: valor + taxa (20%) excede o limite disponível!");
+                    continue;
                 }
-            } while (value <= 0 || value > getBalance());
-            newvalue = getBalance() - value;
-            setBalance(newvalue);
-            System.out.printf("\nVocê pagou o boleto no valor de R$ %.2f com sucesso!", value);
-            System.out.println("\nDeseja retornar?" +
+
+                setOverdraft(getOverdraft() - totalwithtax);
+                System.out.printf("\nVocê usou R$ %.2f do cheque especial, incluindo R$ %.2f de taxa.",
+                        newvalue, tax);
+            }
+
+            System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
@@ -195,11 +227,11 @@ public class BankAccount {
                 default:
                     System.out.println("\nOpção inválida!");
             }
-        } while (keep);
-        scan.close();
+        }
     }
 
     public void OverDraft() {
+        keep = true;
         while (keep) {
             System.out.println(isIsoverdraft() ? ("\nVocê está utilizando o crédito especial da sua conta.") :
                     ("\nVocê não está utilizando o crédito especial."));
@@ -207,8 +239,8 @@ public class BankAccount {
                 System.out.printf("Deseja utilizar o crédito especial da sua conta, no valor de R$%.2f ?" +
                         "\nSim[1]" +
                         "\nNão[2]", getOverdraft());
-                scan.nextInt();
-                switch (scan.nextInt()) {
+                option = scan.nextInt();
+                switch (option) {
                     case 1:
                         setIsoverdraft(true);
                         System.out.println("\nAgora você está utilizando o crédito especial em conta.");
@@ -224,8 +256,8 @@ public class BankAccount {
                 System.out.printf("Deseja parar de utilizar o crédito especial da sua conta, no valor de R$%.2f ?" +
                         "\nSim[1]" +
                         "\nNão[2]", getOverdraft());
-                scan.nextInt();
-                switch (scan.nextInt()) {
+                option = scan.nextInt();
+                switch (option) {
                     case 1:
                         setIsoverdraft(false);
                         System.out.println("\nVocê não utilizando o crédito especial em conta.");
@@ -238,11 +270,11 @@ public class BankAccount {
                         System.out.println("\nOpção inválida!");
                 }
             }
-            System.out.println("\nDeseja retornar?" +
+            System.out.println("\nDeseja retornar ao menu?" +
                     "\nSim[1]" +
                     "\nNão[2] ");
-            scan.nextInt();
-            switch (scan.nextInt()) {
+            option = scan.nextInt();
+            switch (option) {
                 case 1:
                     keep = false;
                     break;
