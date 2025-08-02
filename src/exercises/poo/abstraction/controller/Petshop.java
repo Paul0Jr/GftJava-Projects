@@ -36,7 +36,7 @@ O abastecimento de água e shampoo deve permitir 2 litros por vez que for aciona
         pet.setPetmachine(false);
         pet.setCleanmachine(true);
         while (keep) {
-            System.out.print("\n==========MENU PET SHOP==========");
+            System.out.print("\nExs==========MENU PET SHOP==========");
             System.out.println("" +
                     "\nDar banho no pet[1]               " + "Verificar se tem pet no banho[2]" +
                     "\nColocar pet na máquina[3]         " + "Retirar pet da máquina[4]" +
