@@ -1,8 +1,8 @@
-package desafios;
+package challengers;
 
 import java.util.Scanner;
 
-public class DesafiosSintaxe {
+public class Syntax {
     Scanner scanner = new Scanner(System.in);
 
     public void CalculoFreteRapido() {

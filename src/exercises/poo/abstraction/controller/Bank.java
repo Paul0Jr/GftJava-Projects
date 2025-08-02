@@ -1,6 +1,6 @@
-package exercicios.poo.controller;
+package exercises.poo.abstraction.controller;
 
-import exercicios.poo.models.BankAccount;
+import exercises.poo.abstraction.models.BankAccount;
 
 import java.util.Scanner;
 

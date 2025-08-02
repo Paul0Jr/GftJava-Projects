@@ -1,4 +1,4 @@
-package exercicios.poo.models;
+package exercises.poo.abstraction.models;
 
 import java.util.Scanner;
 

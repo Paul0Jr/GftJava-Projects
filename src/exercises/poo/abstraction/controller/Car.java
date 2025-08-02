@@ -1,6 +1,6 @@
-package exercicios.poo.controller;
+package exercises.poo.abstraction.controller;
 
-import exercicios.poo.models.CarFunctions;
+import exercises.poo.abstraction.models.CarFunctions;
 
 import java.util.Scanner;
 
@@ -71,6 +71,13 @@ public class Car {
                     break;
                 case 7:
                     function.Status();
+                    break;
+                case 8:
+                    if (!function.isOnOff()) {
+                        keep = false;
+                    } else {
+                        System.out.println("Desligue o carro para sair!");
+                    }
                     break;
                 default:
                     System.out.println("\nOpção inválida!");
